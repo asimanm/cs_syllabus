@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6-Month CS Syllabus</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; font-size: 13px; background: #fafafa; color: #1a1a1a; line-height: 1.5; }
+  .page { max-width: 1060px; margin: 0 auto; padding: 48px 32px 80px; }
+
+  .header { margin-bottom: 36px; }
+  .header h1 { font-size: 17px; font-weight: 600; color: #111; margin-bottom: 5px; }
+  .header p { font-size: 12px; color: #888; }
+  .header-meta { display: flex; gap: 24px; margin-top: 12px; flex-wrap: wrap; }
+  .meta { font-size: 11px; color: #aaa; }
+  .meta span { color: #555; font-weight: 500; }
+
+  .tabs { display: flex; gap: 4px; margin-bottom: 24px; flex-wrap: wrap; }
+  .tab { font-family: 'Inter', sans-serif; font-size: 11px; padding: 5px 12px; border-radius: 4px; border: 1px solid #e5e5e5; background: #fff; color: #888; cursor: pointer; transition: all 0.15s; }
+  .tab:hover { border-color: #ccc; color: #333; }
+  .tab.active { background: #111; color: #fff; border-color: #111; }
+
+  .phase-hd { margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid #eee; }
+  .phase-hd h2 { font-size: 14px; font-weight: 600; color: #111; margin-bottom: 4px; }
+  .phase-hd p { font-size: 12px; color: #888; max-width: 680px; }
+
+  .week { border: 1px solid #ebebeb; border-radius: 6px; margin-bottom: 6px; background: #fff; overflow: hidden; }
+  .week-head { display: grid; grid-template-columns: 64px 1fr auto; align-items: center; gap: 10px; padding: 9px 14px; cursor: pointer; user-select: none; }
+  .week-head:hover { background: #f9f9f9; }
+  .wk-num { font-size: 11px; color: #bbb; font-weight: 500; }
+  .wk-title { font-size: 13px; font-weight: 500; color: #111; }
+  .wk-right { display: flex; align-items: center; gap: 10px; }
+  .wk-lang { font-size: 11px; color: #c0c0c0; }
+  .wk-arrow { font-size: 9px; color: #ccc; transition: transform 0.15s; }
+  .week.open .wk-arrow { transform: rotate(90deg); }
+
+  .week-body { display: none; border-top: 1px solid #f0f0f0; background: #fcfcfc; }
+  .week.open .week-body { display: block; }
+
+  /* Two columns inside body */
+  .body-cols { display: grid; grid-template-columns: 1fr 230px; }
+  @media (max-width: 700px) { .body-cols { grid-template-columns: 1fr; } }
+
+  .body-left { padding: 12px; border-right: 1px solid #f0f0f0; }
+  .body-right { padding: 12px; background: #fffdf5; }
+
+  .sessions-row { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; margin-bottom: 8px; }
+  @media (max-width: 580px) { .sessions-row { grid-template-columns: 1fr; } }
+
+  .session { background: #fff; border: 1px solid #ebebeb; border-radius: 5px; padding: 10px 11px; }
+  .s-num { font-size: 10px; color: #c0c0c0; margin-bottom: 3px; }
+  .s-title { font-size: 12px; font-weight: 500; color: #222; margin-bottom: 7px; }
+  .s-topics { list-style: none; }
+  .s-topics li { font-size: 11.5px; color: #666; padding: 1.5px 0 1.5px 10px; position: relative; line-height: 1.55; }
+  .s-topics li::before { content: ''; position: absolute; left: 0; top: 7px; width: 3px; height: 3px; border-radius: 50%; background: #d0d0d0; }
+
+  .project { background: #fff; border: 1px solid #e8e8e8; border-left: 3px solid #111; border-radius: 0 5px 5px 0; padding: 8px 12px; display: flex; gap: 10px; align-items: flex-start; }
+  .proj-label { font-size: 10px; font-weight: 600; color: #111; white-space: nowrap; margin-top: 1px; letter-spacing: 0.04em; }
+  .proj-text { font-size: 11.5px; color: #444; line-height: 1.6; }
+
+  /* Parent column */
+  .parent-header { font-size: 10px; font-weight: 600; color: #b8a000; letter-spacing: 0.05em; margin-bottom: 8px; }
+  .parent-text { font-size: 12px; color: #555; line-height: 1.75; }
+  .parent-can { margin-top: 10px; padding-top: 10px; border-top: 1px solid #f0ead0; }
+  .parent-can-label { font-size: 10px; font-weight: 600; color: #b8a000; letter-spacing: 0.04em; margin-bottom: 5px; }
+  .parent-can ul { list-style: none; }
+  .parent-can ul li { font-size: 11.5px; color: #555; padding: 2px 0 2px 10px; position: relative; line-height: 1.55; }
+  .parent-can ul li::before { content: '✓'; position: absolute; left: 0; font-size: 9px; color: #b8a000; top: 3px; }
+
+  /* Overview */
+  .overview-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; }
+  @media (max-width: 520px) { .overview-grid { grid-template-columns: 1fr; } }
+  .ov-card { border: 1px solid #ebebeb; border-radius: 6px; background: #fff; cursor: pointer; transition: border-color 0.15s; overflow: hidden; }
+  .ov-card:hover { border-color: #bbb; }
+  .ov-top { padding: 14px 15px 10px; }
+  .ov-bottom { padding: 10px 15px 13px; background: #fffdf5; border-top: 1px solid #f5f0dc; }
+  .ov-month { font-size: 10px; color: #bbb; margin-bottom: 4px; }
+  .ov-title { font-size: 13px; font-weight: 600; color: #111; margin-bottom: 5px; }
+  .ov-desc { font-size: 11.5px; color: #777; line-height: 1.6; margin-bottom: 8px; }
+  .ov-tags { display: flex; gap: 4px; flex-wrap: wrap; }
+  .tag { font-size: 10px; padding: 2px 7px; border-radius: 3px; background: #f4f4f4; color: #666; border: 1px solid #eee; }
+  .ov-az-label { font-size: 10px; font-weight: 600; color: #b8a000; letter-spacing: 0.04em; margin-bottom: 4px; }
+  .ov-az-text { font-size: 11.5px; color: #666; line-height: 1.65; }
+
+  .phase-content { display: none; }
+  .phase-content.active { display: block; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <h1>6-Month CS & Data Science Syllabus</h1>
+    <p>1st year university student · Germany · Java → C → Python + Data Structures → Algorithms → Data Science → Deep Learning & AI</p>
+    <div class="header-meta">
+      <div class="meta">Duration <span>6 months / 24 weeks</span></div>
+      <div class="meta">Sessions <span>3 × 90 min / week</span></div>
+      <div class="meta">Total <span>~108 hours</span></div>
+      <div class="meta">Prerequisite <span>loops, if/else, functions, arrays</span></div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="show(0)">Overview</button>
+    <button class="tab" onclick="show(1)">Month 1 — Java</button>
+    <button class="tab" onclick="show(2)">Month 2 — C</button>
+    <button class="tab" onclick="show(3)">Month 3 — Python + DS</button>
+    <button class="tab" onclick="show(4)">Month 4 — Algorithms</button>
+    <button class="tab" onclick="show(5)">Month 5 — Data Science</button>
+    <button class="tab" onclick="show(6)">Month 6 — DL & AI</button>
+  </div>
+
+  <div class="phase-content active" id="phase-0"><div class="overview-grid" id="ov-grid"></div></div>
+  <div class="phase-content" id="phase-1"><div class="phase-hd"><h2>Month 1 — Java: OOP Fundamentals</h2><p>One session of Java syntax setup, then straight into OOP. Classes, encapsulation, inheritance, interfaces, generics, exceptions. 3 sessions × 90 min/week.</p></div><div id="weeks-1"></div></div>
+  <div class="phase-content" id="phase-2"><div class="phase-hd"><h2>Month 2 — C: Memory, Pointers & Systems</h2><p>C shows what Java hides. Pointers, malloc/free, structs, file I/O, linked list in C, debugging with gdb and Valgrind.</p></div><div id="weeks-2"></div></div>
+  <div class="phase-content" id="phase-3"><div class="phase-hd"><h2>Month 3 — Python + Data Structures</h2><p>2 weeks on Python from a Java/C background, then 2 weeks implementing every major data structure — both theory and working Python code.</p></div><div id="weeks-3"></div></div>
+  <div class="phase-content" id="phase-4"><div class="phase-hd"><h2>Month 4 — Algorithms & CS Theory</h2><p>Big-O, sorting, searching, graph algorithms, and dynamic programming — theory first, then implemented in Python.</p></div><div id="weeks-4"></div></div>
+  <div class="phase-content" id="phase-5"><div class="phase-hd"><h2>Month 5 — Data Science: NumPy, Pandas & ML</h2><p>NumPy, Pandas, EDA, visualization, statistics foundations, classical ML with scikit-learn pipelines.</p></div><div id="weeks-5"></div></div>
+  <div class="phase-content" id="phase-6"><div class="phase-hd"><h2>Month 6 — Deep Learning & Modern AI</h2><p>Neural networks, PyTorch, CNNs, transformers, LLMs, fine-tuning, and a final capstone project to show employers.</p></div><div id="weeks-6"></div></div>
+
+</div>
+<script>
+const overviews=[
+  {m:1,title:"Java — OOP Fundamentals",weeks:"Weeks 1–4",
+   desc:"Classes, encapsulation, inheritance, interfaces, generics, exceptions. One session on Java syntax, then straight into OOP.",
+   tags:["Java","OOP","Generics","Exceptions"],
+   az:"Bu ay tələbə proqramlaşdırmanın professional səviyyəsini öyrənir. Almaniyadakı texnologiya şirkətlərinin əksəriyyəti Java istifadə edir. Bu bilik olmadan yaxşı iş tapmaq mümkün deyil."},
+  {m:2,title:"C — Memory & Systems",weeks:"Weeks 5–8",
+   desc:"Pointers, malloc/free, stack vs heap, structs, file I/O, linked list in C, debugging with gdb and Valgrind.",
+   tags:["C","Pointers","malloc","Structs"],
+   az:"Bu ay kompüterin içini görür — sanki avtomobilin mühərrikini öyrənir. Bu bilik olmadan böyük, sürətli proqramlar yazmaq mümkün deyil. Almaniyada bu bilik çox qiymətləndirilir."},
+  {m:3,title:"Python + Data Structures",weeks:"Weeks 9–12",
+   desc:"Python OOP and all major data structures — linked lists, stacks, queues, hash maps, trees, graphs — with full theory and code.",
+   tags:["Python","Linked List","BST","Graphs"],
+   az:"Python bu gün dünyada ən çox işlənən proqramlaşdırma dilidir. Bu ayın sonunda tələbə istənilən məlumatı saxlayıb, axtarıb, düzümləyə biləcək. Bu bacarıq hər şirkətin müsahibəsinin əsasıdır."},
+  {m:4,title:"Algorithms & CS Theory",weeks:"Weeks 13–16",
+   desc:"Big-O, sorting, binary search, BFS/DFS, Dijkstra, and dynamic programming — all in Python.",
+   tags:["Big-O","Sorting","DP","Dijkstra"],
+   az:"Google, Amazon, Microsoft, SAP kimi şirkətlər müsahibədə məhz bu mövzuları soruşur. Bu ayı keçən tələbə Almaniyada hər hansı texnologiya şirkətinə müsahibəyə girə bilər."},
+  {m:5,title:"Data Science — Pandas & ML",weeks:"Weeks 17–20",
+   desc:"NumPy, Pandas, EDA, matplotlib/seaborn, statistics, classical ML with scikit-learn.",
+   tags:["NumPy","Pandas","Scikit-learn","EDA"],
+   az:"Bu ay tələbə məlumatları analiz edib, vizual olaraq izah etməyi və maşın öyrənməsi modelləri qurmağı öyrənir. Almaniyada data mütəxəssislərinin maaşı ildə 60.000–90.000 € arasındadır."},
+  {m:6,title:"Deep Learning & AI",weeks:"Weeks 21–24",
+   desc:"PyTorch, neural nets, CNNs, transformers, LLMs, fine-tuning, capstone project.",
+   tags:["PyTorch","CNNs","Transformers","LLMs"],
+   az:"Bu ay ChatGPT kimi sistemlərin necə işlədiyini öyrənir və özü belə bir layihə hazırlayır. Yekun layihə iş müsahibəsində portfolio kimi göstərilə bilər. Bu sahədə maaşlar Almaniyada ən yüksəklər arasındadır."},
+];
+
+const syllabus=[
+  {m:1,n:1,title:"Java syntax recap & intro to OOP",lang:"Java",
+   az:{text:"Tələbə proqramlaşdırmanın professional dilinə keçid edir. Bu həftə mühiti qurub ilk real sinifini yazır.",can:["Java dilini qurup ilk proqramını işlədə bilər","Sadə bir sinif (məsələn, insan, avtomobil) yaza bilər","Proqramın necə işlədiyini başa düşür"]},
+   s:[
+    {t:"Java basics (1 session)",topics:["JDK + IntelliJ setup","Java syntax vs what you know: types, arrays, methods","Compilation: javac, running a .java file"]},
+    {t:"What is OOP?",topics:["Why OOP: real-world modelling","Class vs object — the blueprint analogy","Your first class: fields and constructor"]},
+    {t:"Methods & state",topics:["Instance vs static methods","this keyword","toString() to print object state"]},
+   ],proj:null},
+
+  {m:1,n:2,title:"Encapsulation & constructors",lang:"Java",
+   az:{text:"Bu həftə tələbə məlumatları qorumağı öyrənir — bank hesabının balansını birbaşa dəyişdirmək əvəzinə yalnız düzgün yoldan əməliyyat aparmaq kimi.",can:["Bank hesabı kimi real dünya obyektini kodda modelləşdirə bilər","Məlumatların yanlış dəyişdirilməsindən qoruma yaza bilər","İlk mini layihəsini tamamlayır"]},
+   s:[
+    {t:"Encapsulation",topics:["Private fields: why hide data?","Getters & setters","Access modifiers: public, private, protected"]},
+    {t:"Constructors in depth",topics:["Default vs parameterised constructors","Constructor overloading","Chaining with this()"]},
+    {t:"Static members",topics:["static fields & methods","When to use static","Math class as a static utility example"]},
+   ],proj:"BankAccount class: balance (private), deposit(), withdraw(), getBalance() — reject negative amounts with an error"},
+
+  {m:1,n:3,title:"Inheritance & polymorphism",lang:"Java",
+   az:{text:"Bu həftə tələbə kodu bir dəfə yazıb dəfələrlə istifadə etməyi öyrənir. Məsələn, 'Heyvan' yazdıqdan sonra 'It' və 'Pişik' üçün hər şeyi yenidən yazmağa ehtiyac qalmır.",can:["Eyni kodu dəfələrlə yazmadan oxşar şeylər üçün istifadə edə bilər","Böyük layihələrdə kodun necə təşkil edildiyini başa düşür","Real şirkətlərin kod bazasını oxuya bilər"]},
+   s:[
+    {t:"Inheritance",topics:["extends keyword","What gets inherited (and what doesn't)","super() to call parent constructor"]},
+    {t:"Method overriding",topics:["@Override annotation","Runtime polymorphism","Calling super.method()"]},
+    {t:"Abstract classes & interfaces",topics:["abstract class: partial blueprint","interface: a contract","implements vs extends — when to use each"]},
+   ],proj:null},
+
+  {m:1,n:4,title:"Interfaces, generics & exceptions",lang:"Java",
+   az:{text:"Bu həftə tələbə proqramın xəta zamanı çökmənin qarşısını almağı və hər tip məlumatla işləyən universal kod yazmağı öyrənir. Bu ay sonu Java üzrə iş müsahibəsinə girə bilər.",can:["Proqram xəta verəndə onu tutub idarə edə bilər","Bir dəfə yazılıb hər şey üçün işləyən universal kod yaza bilər","1-ci ayın sonunda Java üzrə CV-yə 'Java OOP' yaza bilər"]},
+   s:[
+    {t:"Interfaces in practice",topics:["Comparable<T> for sorting objects","Multiple interface implementation","Default methods in interfaces (Java 8+)"]},
+    {t:"Generics",topics:["Why generics: type safety","Generic class Box<T>","Bounded types: <T extends Number>"]},
+    {t:"Exception handling",topics:["Checked vs unchecked exceptions","Custom exception class","try/catch/finally + multi-catch"]},
+   ],proj:"Animal hierarchy: abstract Animal, concrete Dog/Cat/Bird, interface Trainable, polymorphic speak(), sort by name with Comparable"},
+
+  {m:2,n:5,title:"C syntax & the memory model",lang:"C",
+   az:{text:"Bu həftə tələbə kompüterin yaddaşını birbaşa görür — sanki avtomobilin mühərrikini açıb içinə baxır. Java bunu gizlədirdi; C hər şeyi göstərir.",can:["C dilini qurup sadə proqram yaza bilər","Kompüterin yaddaşını necə istifadə etdiyini izah edə bilər","Java-nın pərdə arxasında nə etdiyini başa düşür"]},
+   s:[
+    {t:"C vs Java: key differences",topics:["No classes, no GC — manual everything","gcc setup, compiling & running","Types, printf, scanf, header files"]},
+    {t:"Stack memory",topics:["How the call stack works","Local variables live and die with scope","Stack frames visualised"]},
+    {t:"Pointers — part 1",topics:["What is a memory address?","Declaring & dereferencing a pointer","& and * operators explained clearly"]},
+   ],proj:null},
+
+  {m:2,n:6,title:"Pointers in depth & heap memory",lang:"C",
+   az:{text:"Bu həftə tələbə proqrama lazım olduğu qədər yaddaş ayırmağı və işi bitəndə onu geri qaytarmağı öyrənir. Bu bacarıq oyun, bank, hava limanı sistemlərinin yazılmasında istifadə olunur.",can:["Proqrama dinamik olaraq yaddaş ayıra bilər","Yaddaş sızmalarını tapmağı bilir","Böyük, sürətli proqramların necə qurulduğunu başa düşür"]},
+   s:[
+    {t:"Pointers — part 2",topics:["Pointer arithmetic on arrays","Pointer to pointer **","NULL pointers & dangling pointers"]},
+    {t:"Heap memory",topics:["malloc, calloc, realloc","free() — when and why","Memory leak: what happens if you forget"]},
+    {t:"Strings in C",topics:["char arrays vs char pointers","strcpy, strcat, strlen, strcmp","Buffer overflow awareness"]},
+   ],proj:"Dynamic int array: malloc a block, fill it, resize with realloc, free it — print each step"},
+
+  {m:2,n:7,title:"Structs & file I/O",lang:"C",
+   az:{text:"Bu həftə tələbə real məlumatları (ad, yaş, qiymət) bir yerdə saxlamağı və fayllara yazmağı öyrənir — verilənlər bazasının ən sadə forması.",can:["Məlumatları faylda saxlayıb proqram yenidən başlayanda yükləyə bilər","Real tələbə qeydləri kimi sistemlər yaza bilər","Verilənlər bazasının işləməsini başa düşür"]},
+   s:[
+    {t:"Structs",topics:["struct definition & typedef","Nested structs","Pointer to struct: arrow operator ->"]},
+    {t:"Array of structs",topics:["Allocating array of structs with malloc","Iterating and modifying fields","Freeing without leaks"]},
+    {t:"File I/O",topics:["fopen, fclose, fprintf, fscanf","Reading/writing struct data to file","Error handling with errno"]},
+   ],proj:"Student records manager: struct Student, add/list/save to file/load from file using malloc"},
+
+  {m:2,n:8,title:"Data structures in C & debugging",lang:"C",
+   az:{text:"Bu həftə tələbə Java-nın hazır verdiyi siyahı strukturunu sıfırdan özü yazır. Valgrind aləti ilə yaddaş sızmalarını tapır — peşəkar proqramçıların hər gün istifadə etdiyi bacarıq.",can:["Hər hansı data strukturunu sıfırdan qura bilər","Proqramdakı gizli yaddaş xətalarını tapa bilər","2-ci ayın sonunda 'C proqramlaşdırma' CV-yə əlavə edə bilər"]},
+   s:[
+    {t:"Linked list in C",topics:["Node struct + malloc per node","Insert at head, append, print","Free all nodes — no leaks"]},
+    {t:"Function pointers & callbacks",topics:["Function pointer syntax","qsort() with custom comparator","Why callbacks matter in C"]},
+    {t:"Debugging",topics:["gdb: breakpoints, step, print","Valgrind: detect memory leaks","Common C bugs & how to spot them"]},
+   ],proj:"Linked list in C: insert, delete by value, print, free all — verified with Valgrind (zero leaks)"},
+
+  {m:3,n:9,title:"Python fundamentals",lang:"Python",
+   az:{text:"Bu həftə tələbə dünyada ən populyar proqramlaşdırma dilini öyrənir. Python ilə eyni işi Java-da 10 sətirdə yazırsınızsa, Python-da 2-3 sətirdə yazırsınız. Data elmi, süni intellekt — hamısı Python üzərindədir.",can:["Python-da proqram yaza bilər","Faylları oxuyub işləyə bilər","İnternet API-larından məlumat çəkə bilər"]},
+   s:[
+    {t:"Python vs Java/C mindset",topics:["Dynamic typing, no compilation step","Lists, tuples, dicts, sets — not arrays","Indentation as syntax; REPL workflow"]},
+    {t:"Functions & comprehensions",topics:["def, *args, **kwargs, default params","List & dict comprehensions","Lambda functions"]},
+    {t:"File I/O, modules & errors",topics:["open(), with statement, read/write","import, pip, virtual environments","try/except, raising custom exceptions"]},
+   ],proj:null},
+
+  {m:3,n:10,title:"Python OOP",lang:"Python",
+   az:{text:"Bu həftə tələbə Java-da öyrəndiklərini Python-da tətbiq edir. Python-un xüsusi metodları sayəsinde öz yazdığı siniflər Python-un daxili alətləri kimi işləyir.",can:["Python-da tam OOP layihəsi yaza bilər","Kodu modular şəkildə təşkil edə bilər","Kitabxana idarəetmə sistemi kimi real tətbiq qura bilər"]},
+   s:[
+    {t:"Classes in Python",topics:["class, __init__, self","Instance vs class attributes","Inheritance & super()"]},
+    {t:"Dunder methods",topics:["__str__, __repr__, __len__, __eq__","__iter__ and __next__ for iteration","__enter__ / __exit__ for context managers"]},
+    {t:"Useful patterns",topics:["@property decorator","dataclasses for simple structs","Modules & packaging basics"]},
+   ],proj:"Library system: Book class, Library with add/remove/search, __iter__ to loop books, save/load from JSON"},
+
+  {m:3,n:11,title:"Linear data structures — theory + code",lang:"Python",
+   az:{text:"Bu həftə tələbə məlumatların arxasındakı strukturları öyrənir. Brauzerdəki 'Geri' düyməsi Stack istifadə edir. WhatsApp mesaj növbəsi Queue istifadə edir. Bunları bilmək hər texnologiya müsahibəsinin açarıdır.",can:["Stack, Queue, Linked List-i sıfırdan yaza bilər","Bu strukturların hər birinin nə üçün yaradıldığını izah edə bilər","Müsahibə suallarının böyük hissəsinə cavab verə bilər"]},
+   s:[
+    {t:"Linked list",topics:["Theory: nodes, pointers, O(n) access vs O(1) insert","Singly linked list from scratch in Python","Insert, delete, search, reverse"]},
+    {t:"Stack",topics:["Theory: LIFO — undo, call stack, brackets","Implement Stack class with a Python list","Application: balanced parentheses checker"]},
+    {t:"Queue & deque",topics:["Theory: FIFO — print queue, BFS","Implement Queue class","collections.deque for efficient double-ended ops"]},
+   ],proj:"Implement LinkedList, Stack, Queue as Python classes with full methods + pytest tests for each"},
+
+  {m:3,n:12,title:"Non-linear data structures — theory + code",lang:"Python",
+   az:{text:"Bu həftə tələbə Google Xəritəsinin, sosial şəbəkələrin və axtarış sistemlərinin arxasındakı strukturları öyrənir. 3-cü ayın sonunda artıq texnologiya müsahibəsinə girməyə hazırdır.",can:["Google Xəritəsi kimi marşrut tapan proqram yaza bilər","Sosial şəbəkə bağlantılarını modelləşdirə bilər","3-cü ayın sonunda 'Data Structures' CV-yə əlavə edə bilər"]},
+   s:[
+    {t:"Hash tables",topics:["Theory: hash functions, collisions, O(1) avg","Build a simple hash map from scratch","Python dict internals & when to use sets vs dicts"]},
+    {t:"Binary trees & BST",topics:["Theory: nodes, BST property, O(log n) search","Build BST: insert, search, in-order traversal","Height, balanced check"]},
+    {t:"Graphs",topics:["Theory: vertices, edges, directed vs undirected","Adjacency list in Python (dict of lists)","BFS and DFS — implement both with examples"]},
+   ],proj:"BST in Python: insert, search, delete, in-order traversal, height — __iter__ yielding sorted values"},
+
+  {m:4,n:13,title:"Big-O & complexity analysis",lang:"Python + Theory",
+   az:{text:"Bu həftə tələbə proqramın nə qədər sürətli işlədiyini ölçməyi öyrənir. Sanki çörəkçi eyni çörəyi 10 dəqiqədə vs 10 saatda bişirməyi müqayisə edir — hansı resept daha sərfəlidir?",can:["İki həll arasında daha sürətlisini seçə bilər","Böyük miqdarda məlumatın proqrama nə edəcəyini proqnozlaşdıra bilər","Google, Amazon kimi şirkətlərin sual tipini başa düşür"]},
+   s:[
+    {t:"Big-O notation",topics:["Time & space complexity","O(1), O(log n), O(n), O(n log n), O(n²), O(2ⁿ)","Reading code and estimating complexity"]},
+    {t:"Analysing your own code",topics:["Loops, nested loops, recursion","Amortised analysis (Python list append)","Best vs worst vs average case"]},
+    {t:"Recursion patterns",topics:["Base case & recursive case","Call stack visualised in memory","Tail recursion, memoisation intro"]},
+   ],proj:null},
+
+  {m:4,n:14,title:"Sorting algorithms",lang:"Python + Theory",
+   az:{text:"Bu həftə tələbə məlumatları sıralamanın müxtəlif yollarını öyrənir — sadəsindən ən sürətlisinə. Bu, proqramçılıq müsahibələrinin klassik mövzusudur.",can:["6 fərqli sıralama alqoritmini yaza bilər","Hansı sıralama metodunun nə vaxt daha yaxşı olduğunu izah edə bilər","Proqramların sürətini ölçüb qrafik üzərindən müqayisə edə bilər"]},
+   s:[
+    {t:"Simple sorts",topics:["Bubble sort: theory + implement + O(n²)","Selection sort: theory + implement","Insertion sort: when it's the best choice"]},
+    {t:"Efficient sorts",topics:["Merge sort: divide & conquer + full code","Quick sort: pivot strategy + O(n log n) avg","Comparing all: stability, in-place, use cases"]},
+    {t:"Python sorting tools",topics:["sorted() vs list.sort() — key differences","key= and reverse= with examples","Timsort: what Python actually uses"]},
+   ],proj:"Implement bubble, merge, quick sort — benchmark on 100/1000/10000 elements, plot with matplotlib"},
+
+  {m:4,n:15,title:"Searching & graph algorithms",lang:"Python + Theory",
+   az:{text:"Bu həftə tələbə iki şəhər arasındakı ən qısa yolu tapan proqram yazır — eynilə Google Xəritəsinin etdiyi kimi. Bu alqoritm hava limanlarında, logistika şirkətlərində, naviqasiya sistemlərində istifadə olunur.",can:["İki nöqtə arasında ən qısa yolu tapan proqram yaza bilər","Axtarış alqoritmlərini işlədə bilər","Real şirkətlərin istifadə etdiyi naviqasiya məntiqi qura bilər"]},
+   s:[
+    {t:"Searching",topics:["Linear search: O(n) — when it's fine","Binary search: iterative + recursive","Two-pointer technique on sorted arrays"]},
+    {t:"BFS & DFS in depth",topics:["BFS: shortest path in unweighted graph","DFS: connected components, cycle detection","Choosing BFS vs DFS — decision guide"]},
+    {t:"Dijkstra's algorithm",topics:["Weighted graphs & shortest path problem","Dijkstra step-by-step with priority queue","Implement in Python with heapq"]},
+   ],proj:"City map: weighted graph of cities, find shortest path between any two using Dijkstra"},
+
+  {m:4,n:16,title:"Dynamic programming",lang:"Python + Theory",
+   az:{text:"Bu həftə tələbə mürəkkəb problemləri kiçik hissələrə bölərək həll etməyi öyrənir. Bu texnika maliyyə hesablamalarında, oyunlarda, tibbi diaqnostikada istifadə olunur. 4-cü ayın sonunda texnologiya müsahibəsinə tam hazırdır.",can:["Çətin optimallaşdırma problemlərini həll edə bilər","Google, Microsoft kimi şirkətlərin müsahibə suallarını cavablandıra bilər","4-cü ayın sonunda 'Algorithms & Data Structures' CV-yə əlavə edə bilər"]},
+   s:[
+    {t:"DP fundamentals",topics:["Overlapping subproblems explained","Memoisation: top-down approach","Fibonacci with and without memo — compare speed"]},
+    {t:"Tabulation",topics:["Bottom-up DP: tabulation approach","Classic: coin change, climbing stairs","When tabulation beats memoisation"]},
+    {t:"Classic DP problems",topics:["0/1 Knapsack: theory + solution","Longest common subsequence (LCS)","Recognising DP problems in interviews"]},
+   ],proj:"Solve 3 DP problems with comments: (1) coin change, (2) LCS, (3) 0/1 knapsack"},
+
+  {m:5,n:17,title:"NumPy & data foundations",lang:"NumPy",
+   az:{text:"Bu həftə tələbə milyonlarla rəqəmi saniyənin yüzdə birində emal edən alət öyrənir. Bütün maşın öyrənməsi, süni intellekt bu alətin üzərindədir.",can:["Böyük rəqəm massivlərini sürətlə işləyə bilər","Riyazi hesablamaları kod ilə avtomatik edə bilər","Maşın öyrənməsinin texniki əsasını başa düşür"]},
+   s:[
+    {t:"NumPy arrays",topics:["ndarray vs Python list: speed & memory","zeros, ones, arange, linspace","Shape, dtype, reshape, transpose, flatten"]},
+    {t:"Array operations",topics:["Element-wise ops & broadcasting rules","Indexing, slicing, fancy indexing, boolean masks","np.where, np.sort, np.argsort"]},
+    {t:"Linear algebra & stats",topics:["dot, matmul for ML foundations","Mean, std, variance, percentile, corrcoef","np.random distributions & seeding"]},
+   ],proj:null},
+
+  {m:5,n:18,title:"Pandas — data wrangling",lang:"Pandas",
+   az:{text:"Bu həftə tələbə real, çirkli məlumatları təmizləyib analiz etməyi öyrənir. Sanki çox böyük bir Excel faylını avtomatik işlədir — amma Excel-in edə bilmədiyini edir. Almaniyadakı hər bankın, sığorta şirkətinin, logistika firmosının buna ehtiyacı var.",can:["Yüz minlərlə sətirlik məlumatı saniyələrdə analiz edə bilər","Natamam, xətalı məlumatları avtomatik təmizləyə bilər","Real biznes suallarına məlumatla cavab tapa bilər"]},
+   s:[
+    {t:"DataFrames & Series",topics:["read_csv, read_json, head, info, describe","iloc vs loc vs boolean indexing","dtypes, value_counts, nunique"]},
+    {t:"Cleaning & transforming",topics:["NaN: dropna, fillna, interpolate","apply, map; astype for type conversion","String ops with .str accessor"]},
+    {t:"GroupBy, merge & reshape",topics:["groupby + agg (sum, mean, count)","merge (inner/left/right/outer), concat","pivot_table, melt, stack/unstack"]},
+   ],proj:"Full EDA on Titanic: clean nulls, group by class/gender/age, export 5 key findings"},
+
+  {m:5,n:19,title:"Visualisation & statistics",lang:"Matplotlib / Seaborn",
+   az:{text:"Bu həftə tələbə məlumatları cədvəl əvəzinə vizual olaraq izah etməyi öyrənir. İş yerində rəhbərə 'satışlar artdı' demək əvəzinə bir qrafiklə göstərir. Bu bacarıq hər sahədə, hər şirkətdə lazımdır.",can:["Məlumatları gözəl, aydın qrafiklərə çevirə bilər","Statistik nəticəni texniki bilməyən insanlara izah edə bilər","Prezentasiyalar üçün peşəkar vizuallar hazırlaya bilər"]},
+   s:[
+    {t:"Matplotlib",topics:["Figure & axes architecture","Line, bar, scatter, histogram","Subplots, labels, titles, annotations"]},
+    {t:"Seaborn",topics:["heatmap: correlation matrix","pairplot: all feature relationships","boxplot, violinplot, histplot"]},
+    {t:"Statistics for ML",topics:["Distributions: normal, skewed","Hypothesis testing: t-test, p-value intuition","Correlation vs causation"]},
+   ],proj:"6 charts on a real dataset telling a clear data story — saved as PNG with titles & annotations"},
+
+  {m:5,n:20,title:"Classical machine learning",lang:"Scikit-learn",
+   az:{text:"Bu həftə tələbə kompüterə özü-özünə öyrənməyi öyrədir. Məsələn: ev qiymətini proqnozlaşdıran, xəstəliyi erkən aşkarlayan, müştərinin getməyini proqnozlaşdıran modellər. Almaniyadakı data mütəxəssisinin orta illik maaşı 70.000 €-dur.",can:["Maşın öyrənməsi modeli qurub real məlumat üzərində sınaya bilər","Modelin nə qədər dəqiq olduğunu ölçə bilər","5-ci ayın sonunda 'Machine Learning' CV-yə əlavə edə bilər"]},
+   s:[
+    {t:"ML fundamentals",topics:["Supervised vs unsupervised","Train/test split, k-fold cross-validation","Feature scaling: StandardScaler vs MinMaxScaler"]},
+    {t:"Models & evaluation",topics:["Linear regression, logistic regression","Decision tree, Random Forest, XGBoost basics","Metrics: accuracy, precision, recall, F1, ROC-AUC"]},
+    {t:"Pipelines, tuning & unsupervised",topics:["sklearn Pipeline + ColumnTransformer","GridSearchCV for hyperparameter tuning","K-Means clustering, PCA for dimensionality reduction"]},
+   ],proj:"End-to-end ML: load → clean → Pipeline → RandomForest → GridSearchCV → confusion matrix & classification report"},
+
+  {m:6,n:21,title:"Neural network foundations",lang:"PyTorch",
+   az:{text:"Bu həftə tələbə ChatGPT, Google Translate, üz tanıma sistemlərinin əsasını öyrənir. Neyron şəbəkə insan beyninin sadələşdirilmiş modeli kimi işləyir — milyardlarla kiçik qərar birlikdə böyük nəticə verir.",can:["Neyron şəbəkənin necə işlədiyini izah edə bilər","PyTorch ilə ilk modelini yaza bilər","Süni intellektin əsas prinsiplərini başa düşür"]},
+   s:[
+    {t:"How neural networks work",topics:["Neuron: weights, bias, activation function","Forward pass: input → hidden → output","Why depth? Each layer learns different features"]},
+    {t:"Backpropagation & training",topics:["Loss function: what we minimise","Gradient descent: intuition first, then math","Chain rule: how gradients flow backwards"]},
+    {t:"PyTorch basics",topics:["Tensors: creation, ops, .to(device)","autograd: backward(), .grad","nn.Module, forward(), optimizer, loss"]},
+   ],proj:null},
+
+  {m:6,n:22,title:"Building & training networks",lang:"PyTorch",
+   az:{text:"Bu həftə tələbə şəkilləri tanıyan proqram yazır. Smartfonunuzun üzünüzü kilidini açması, nömrə boşqabını oxuması, tibbi şəkillərdəki xəstəliyi aşkarlaması — hamısı bu texnologiyadır.",can:["Şəkil tanıyan süni intellekt modeli yaza bilər","Modeli öyrədib nəticəsini qrafiklə göstərə bilər","Real şirkətlərin istifadə etdiyi texnologiyanı tətbiq edə bilər"]},
+   s:[
+    {t:"Building networks",topics:["nn.Linear, nn.Sequential","Custom nn.Module subclass","Activation functions: ReLU, sigmoid, softmax"]},
+    {t:"Training loop & regularisation",topics:["Full loop: forward → loss → backward → step","Dropout & batch normalisation","LR scheduling, early stopping, checkpoints"]},
+    {t:"CNNs",topics:["Convolution: filters, feature maps, stride","nn.Conv2d, MaxPool2d, Flatten","Image classifier end-to-end on MNIST"]},
+   ],proj:"Train CNN on CIFAR-10: full training loop, plot loss & accuracy curves, report test accuracy"},
+
+  {m:6,n:23,title:"Sequences, attention & transformers",lang:"PyTorch / HuggingFace",
+   az:{text:"Bu həftə tələbə ChatGPT-nin arxasındakı texnologiyanı — Transformer arxitekturasını — öyrənir. Bu, son 10 ilin ən vacib texnologiya kəşfidir. Bunu bilən mütəxəssislərə tələb çox yüksəkdir.",can:["Transformer arxitekturasını izah edə bilər","Mətn anlayan modellərin necə işlədiyini başa düşür","Süni intellekt sahəsinin ən aktual texnologiyasını bilir"]},
+   s:[
+    {t:"RNNs & LSTMs",topics:["Why sequences need memory","nn.LSTM: hidden state, cell state","Use case: sentiment classification from text"]},
+    {t:"Attention mechanism",topics:["Limitation of RNNs: long sequences","Self-attention: Query, Key, Value","Multi-head attention — why multiple heads?"]},
+    {t:"Transformer architecture",topics:["Encoder-decoder overview","Positional encoding: why order matters","BERT (understanding) vs GPT (generation)"]},
+   ],proj:null},
+
+  {m:6,n:24,title:"LLMs, fine-tuning & capstone",lang:"HuggingFace / APIs",
+   az:{text:"Bu son həftədə tələbə bütün 6 ayı birləşdirən yekun layihə hazırlayır. Bu layihə iş müsahibəsində portfolio kimi göstərilə bilər. 6 ayın sonunda tələbə Almaniyada texnologiya şirkətlərinin stajçı proqramlarına müraciət edə biləcək səviyyədədir.",can:["ChatGPT kimi sistemin sadə versiyasını qura bilər","Hazır modelləri öz məlumatlarına uyğunlaşdıra bilər","İşə müraciət üçün tam portfolio layihəsi hazırlaya bilər","Almaniyadakı texnologiya stajçı proqramlarına müraciət edə bilər"]},
+   s:[
+    {t:"Using LLMs in practice",topics:["HuggingFace: pipeline, AutoModel, AutoTokenizer","Prompt engineering: zero-shot, few-shot, CoT","RAG: embeddings, vector search, retrieval"]},
+    {t:"Fine-tuning & deployment",topics:["Transfer learning: why not from scratch","LoRA / PEFT: fine-tuning on a budget","Serve a model: FastAPI endpoint basics"]},
+    {t:"Capstone & next steps",topics:["Responsible AI: bias, fairness, hallucination","Career paths: MLE, data scientist, AI engineer","What to learn next: MLOps, system design"]},
+   ],proj:"CAPSTONE — choose one: (1) Fine-tuned text classifier, (2) RAG chatbot over a document set, (3) Image classifier as a REST API"},
+];
+
+function buildOverview(){
+  document.getElementById('ov-grid').innerHTML=overviews.map(o=>`
+    <div class="ov-card" onclick="show(${o.m})">
+      <div class="ov-top">
+        <div class="ov-month">Month ${o.m} · ${o.weeks}</div>
+        <div class="ov-title">${o.title}</div>
+        <div class="ov-desc">${o.desc}</div>
+        <div class="ov-tags">${o.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+      </div>
+      <div class="ov-bottom">
+        <div class="ov-az-label"></div>
+        <div class="ov-az-text">${o.az}</div>
+      </div>
+    </div>`).join('');
+}
+
+function buildWeeks(){
+  for(let m=1;m<=6;m++){
+    const container=document.getElementById(`weeks-${m}`);
+    container.innerHTML=syllabus.filter(w=>w.m===m).map(w=>{
+      const sessHTML=w.s.map((s,i)=>`
+        <div class="session">
+          <div class="s-num">Session ${i+1}</div>
+          <div class="s-title">${s.t}</div>
+          <ul class="s-topics">${s.topics.map(t=>`<li>${t}</li>`).join('')}</ul>
+        </div>`).join('');
+      const projHTML=w.proj?`
+        <div class="project">
+          <div class="proj-label">PROJECT</div>
+          <div class="proj-text">${w.proj}</div>
+        </div>`:'';
+      const canHTML=w.az.can.map(c=>`<li>${c}</li>`).join('');
+      return `
+        <div class="week" id="wk-${w.n}">
+          <div class="week-head" onclick="toggle(${w.n})">
+            <span class="wk-num">Week ${w.n}</span>
+            <span class="wk-title">${w.title}</span>
+            <span class="wk-right">
+              <span class="wk-lang">${w.lang}</span>
+              <span class="wk-arrow" id="arr-${w.n}">▶</span>
+            </span>
+          </div>
+          <div class="week-body" id="body-${w.n}">
+            <div class="body-cols">
+              <div class="body-left">
+                <div class="sessions-row">${sessHTML}</div>
+                ${projHTML}
+              </div>
+              <div class="body-right">
+                <div class="parent-header"></div>
+                <div class="parent-text">${w.az.text}</div>
+                <div class="parent-can">
+                  <div class="parent-can-label">Bu həftənin sonunda bacara bilər</div>
+                  <ul>${canHTML}</ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+}
+
+function toggle(n){document.getElementById(`wk-${n}`).classList.toggle('open');}
+
+function show(n){
+  document.querySelectorAll('.phase-content').forEach(el=>el.classList.remove('active'));
+  document.getElementById(`phase-${n}`).classList.add('active');
+  document.querySelectorAll('.tab').forEach((btn,i)=>btn.classList.toggle('active',i===n));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+buildOverview();
+buildWeeks();
+</script>
+</body>
+</html>
